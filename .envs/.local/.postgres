@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=smplshop
+POSTGRES_USER=eUevyyoNMGqhPZBCMUiDXUOaoDtREwXp
+POSTGRES_PASSWORD=ywPyYncEs4zFo08w2zu1q5P8rdExiT1JptA8QEau9Bm0bptw7qUgrQBnYwRy8rJG
