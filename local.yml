@@ -24,6 +24,8 @@ services:
     ports:
       - "8000:8000"
     command: /start
+    links:
+      - selenium
 
   postgres:
     build:
@@ -93,3 +95,8 @@ services:
     ports:
       - "5555:5555"
     command: /start-flower
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - 4444:4444
