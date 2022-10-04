@@ -3,11 +3,11 @@
 {% load i18n %}
 {% load account %}
 
-{% block head_title %}{% translate "Confirm E-mail Address" %}{% endblock %}
+{% block head_title %}{% translate "Confirm your e-mail address" %}{% endblock %}
 
 
 {% block inner %}
-<h1>{% translate "Confirm E-mail Address" %}</h1>
+<h1>{% translate "Confirm your e-mail address" %}</h1>
 
 {% if confirmation %}
 
@@ -17,7 +17,7 @@
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button class="btn btn-primary" type="submit">{% translate 'Confirm' %}</button>
+    <button class="btn btn-primary" id="id_submit" type="submit">{% translate 'Confirm' %}</button>
 </form>
 
 {% else %}
