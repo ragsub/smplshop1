@@ -1,32 +1,12 @@
 import re
-import socket
 
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core import mail
-from django.test import override_settings
-from selenium import webdriver
-from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.by import By
 
+from .common import SetupTests
 
-@override_settings(ALLOWED_HOSTS=["*"])
-class RegisterAndLogin(StaticLiveServerTestCase):
-    host = "0.0.0.0"
 
-    @classmethod
-    def setUpClass(self):
-        super().setUpClass()
-        self.host = socket.gethostbyname(socket.gethostname())
-        options = ChromeOptions()
-        # options.add_argument("--no-sandbox")
-        self.driver = webdriver.Remote("http://selenium:4444/wd/hub", options=options)
-        self.driver.implicitly_wait(10)
-
-    @classmethod
-    def tearDownClass(self):
-        self.driver.quit()
-        super().tearDownClass()
-
+class RegisterAndLogin(SetupTests):
     def test_signup_and_login(self):
         # user visits the home page
         self.driver.get(self.live_server_url)
@@ -50,9 +30,6 @@ class RegisterAndLogin(StaticLiveServerTestCase):
         self.driver.find_element(By.ID, "id_password2").send_keys(password)
         # she submits the form
         self.driver.find_element(By.ID, "id_submit").click()
-        # ActionChains(self.driver).move_to_element(button_element).click(
-        #     button_element
-        # ).perform()
 
         # she sees that it has sent an email for her to confirm the signup.
         self.assertIn("Verify your e-mail address", self.driver.page_source)
@@ -90,3 +67,4 @@ class RegisterAndLogin(StaticLiveServerTestCase):
 
         # she is signed out of the system
         self.assertIn("signed out", self.driver.page_source)
+        self.assertIn("SmplShop", self.driver.title)
