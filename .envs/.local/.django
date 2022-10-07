@@ -8,7 +8,10 @@ REDIS_URL=redis://redis:6379/0
 
 # Celery
 # ------------------------------------------------------------------------------
-
+CELERY_BROKER_URL=redis://localhost:6379/0
 # Flower
 CELERY_FLOWER_USER=wsfclBmlXRWUlkhRzEgGrbyMbkbEHkVH
 CELERY_FLOWER_PASSWORD=3DRFGuhfDxuLXJdcim93QG5nlK1JCVLTYTMSQCatBHSmISXFnkDIV8TeQeQfg1Dt
+
+# Mailhog
+EMAIL_HOST=127.0.0.1

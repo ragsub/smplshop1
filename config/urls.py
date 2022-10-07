@@ -17,6 +17,8 @@ urlpatterns = [
     # User management
     path("users/", include("smplshop.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    # master data management
+    path("master/", include("smplshop.master.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

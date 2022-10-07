@@ -13,7 +13,8 @@ env = environ.Env()
 READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
-    env.read_env(str(ROOT_DIR / ".env"))
+    env.read_env(str(ROOT_DIR / ".envs/.local/.django"))
+    env.read_env(str(ROOT_DIR / ".envs/.local/.postgres"))
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -76,10 +77,13 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "django_bootstrap5",
 ]
 
 LOCAL_APPS = [
     "smplshop.users",
+    "smplshop.master",
+    "smplshop.tags"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -326,3 +330,4 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+ITEMS_PER_PAGE = 10

@@ -1,0 +1,27 @@
+{%extends "base.html"%}
+{% load static i18n %}
+{% load verbose %}
+{%load django_bootstrap5%}
+{%block title%}Store{%endblock title%}
+
+{%block content%}
+<a href="{%url 'smplshop.master:store_add'%}" id="add_button" class="btn btn-primary">{%translate "Add"%}</a>
+    <table class="table table-hover">
+    <tr>
+    {%for field in fields%}
+        <th>{%field_name model field%}</th>
+    {%endfor%}
+    </tr>
+
+    {%for obj in object_list%}
+    <tr>
+    {%for value in obj%}
+        <td>{{value}}</td>
+        {%endfor%}
+    {%endfor%}
+    </tr>
+</table>
+
+{%bootstrap_pagination page_obj%}
+
+{%endblock content%}
