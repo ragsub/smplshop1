@@ -53,6 +53,8 @@ class SetupMasterData(SetupTests):
 
         # user enters the details of the store such as its name, code and address
         self.driver.find_element(By.ID, "id_name").send_keys("krishna stores")
+        self.driver.find_element(By.ID, "id_code").send_keys("krishna")
+
         # user clicks on the submit button
         self.driver.find_element(By.ID, "id_submit").click()
 
