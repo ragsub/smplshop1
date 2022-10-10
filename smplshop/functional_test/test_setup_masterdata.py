@@ -1,5 +1,5 @@
 from django.test import override_settings
-from selenium.webdriver import Remote
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -11,7 +11,7 @@ from .common import SetupTests
 
 @override_settings(ACCOUNT_EMAIL_VERIFICATION="none")
 class SetupMasterData(SetupTests):
-    driver: Remote
+    driver: webdriver.Chrome
 
     @classmethod
     def setUpClass(cls):

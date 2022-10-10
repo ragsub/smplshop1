@@ -22,7 +22,6 @@ class SetupTests(StaticLiveServerTestCase):
         cls.driver = webdriver.Chrome(
             service=ChromeService(ChromeDriverManager().install()), options=options
         )
-        # self.driver = webdriver.Remote("http://selenium:4444/wd/hub", options=options)
         cls.driver.implicitly_wait(10)
 
     @classmethod
