@@ -47,6 +47,9 @@ class SetupMasterData(SetupTests):
         self.assertIn("Add", self.driver.page_source)
         # user clicks on the add button
         self.driver.find_element(By.LINK_TEXT, "Add").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "id_submit"))
+        )
 
         # a popup shows up with the details required
         self.assertIn("Add Record", self.driver.title)
@@ -57,6 +60,8 @@ class SetupMasterData(SetupTests):
 
         # user clicks on the submit button
         self.driver.find_element(By.ID, "id_submit").click()
+
+        WebDriverWait(self.driver, 10).until(EC.title_is("Store"))
 
         # the dialogue box disappears and the original page shifts to the page where the added record is present
         self.assertIn("Store", self.driver.title)

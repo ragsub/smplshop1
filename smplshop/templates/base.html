@@ -1,4 +1,5 @@
 {% load static i18n %}
+{%load django_bootstrap5%}
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
@@ -20,6 +21,9 @@
       crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Your stuff: Third-party CSS libraries go here -->
 
+    <link rel="stylesheet" href="https://unpkg.com/unpoly@2.6.1/unpoly.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/unpoly@2.6.1/unpoly-bootstrap3.min.css">
+
     <!-- This file stores project-specific CSS -->
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
     {% endblock %}
@@ -32,6 +36,8 @@
       integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ=="
       crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Your stuff: Third-party javascript libraries go here -->
+
+    <script src="https://unpkg.com/unpoly@2.6.1/unpoly.min.js"></script>
 
     <!-- place project specific Javascript in this file -->
     <script defer src="{% static 'js/project.js' %}"></script>
@@ -102,8 +108,8 @@
 
     </div>
 
-    <div class="container">
-
+    <div class="container" id="main_body">
+      {% bootstrap_messages %}
       {% if messages %}
       {% for message in messages %}
       <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">

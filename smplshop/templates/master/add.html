@@ -2,10 +2,15 @@
 {% load static i18n %}
 {%load crispy_forms_tags%}
 {%block title%}Add Record{%endblock title%}
+
 {%block content%}
-    <form method="POST" action="{{request.path}}">
+<div up-main>
+    <h3>Add a record</h3>
+    <hr>
+    <form method="POST" action="{{request.path}}" up-submit="">
         {% csrf_token %}
         {{ form|crispy }}
         <button type='submit' id="id_submit" class="btn btn-primary">Submit</button>
     </form>
+</div>
 {%endblock content%}

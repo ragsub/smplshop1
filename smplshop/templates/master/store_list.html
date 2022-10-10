@@ -5,8 +5,8 @@
 {%block title%}Store{%endblock title%}
 
 {%block content%}
-<a href="{%url 'smplshop.master:store_add'%}" id="add_button" class="btn btn-primary">{%translate "Add"%}</a>
-    <table class="table table-hover">
+<a href="{%url 'smplshop.master:store_add'%}" up-layer="new" id="add_button" up-accept-location="{%url 'smplshop.master:store_list'%}?new_code=:code" class="btn btn-primary" up-on-accepted="up.reload({ navigate: true,url:'{{request.path}}' })">{%translate "Add"%}</a>
+<table id="list-table" class="table table-hover w-auto">
     <tr>
     {%for field in fields%}
         <th>{%field_name model field%}</th>
