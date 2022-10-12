@@ -72,6 +72,8 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="{%url "smplshop.master:store_list"%}">{%translate "Store"%}</a></li>
+                  <li><a class="dropdown-item" href="{%url "smplshop.master:store_list"%}">{%translate "Product"%}</a></li>
+
                   <!-- <li><hr class="dropdown-divider"></li> -->
                 </ul>
               </li>
@@ -109,8 +111,15 @@
     </div>
 
     <div class="container" id="main_body">
+
+      <div up-hungry>
       {% bootstrap_messages %}
-      {% if messages %}
+      </div>
+      {% block content %}
+      <p>Use this document as a way to quick start any new project.</p>
+      {% endblock content %}
+
+    </div> <!-- /contain      {% if messages %}
       {% for message in messages %}
       <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
         {{ message }}
@@ -118,12 +127,7 @@
       </div>
       {% endfor %}
       {% endif %}
-
-      {% block content %}
-      <p>Use this document as a way to quick start any new project.</p>
-      {% endblock content %}
-
-    </div> <!-- /container -->
+er -->
 
     {% block modal %}{% endblock modal %}
 

@@ -141,9 +141,12 @@ class TestStoreCreateView(TestCase):
         response = self.client.post(
             "/master/store/add/", {"name": "Krishna1 Stores", "code": "krishna"}
         )
-        self.assertEqual(200, response.status_code)
         self.assertTemplateUsed("master/add.html")
-        self.assertContains(response, "Store with this Store Code already exists.")
+        self.assertContains(
+            response,
+            "Store with this Store Code already exists.",
+            status_code=400,
+        )
 
     # check if duplicate record of name is rejected
     def test_duplicate_name_record(self):
@@ -151,9 +154,10 @@ class TestStoreCreateView(TestCase):
         response = self.client.post(
             "/master/store/add/", {"name": "Krishna Stores", "code": "krishna1"}
         )
-        self.assertEqual(200, response.status_code)
         self.assertTemplateUsed("master/add.html")
-        self.assertContains(response, "Store with this Store Name already exists.")
+        self.assertContains(
+            response, "Store with this Store Name already exists.", status_code=400
+        )
 
     # check if duplicate record of code and name is rejected
     def test_duplicate_code_and_name_record(self):
@@ -161,10 +165,13 @@ class TestStoreCreateView(TestCase):
         response = self.client.post(
             "/master/store/add/", {"name": "Krishna Stores", "code": "krishna"}
         )
-        self.assertEqual(200, response.status_code)
         self.assertTemplateUsed("master/add.html")
-        self.assertContains(response, "Store with this Store Name already exists.")
-        self.assertContains(response, "Store with this Store Code already exists.")
+        self.assertContains(
+            response, "Store with this Store Name already exists.", status_code=400
+        )
+        self.assertContains(
+            response, "Store with this Store Code already exists.", status_code=400
+        )
 
     # check if code accepts only characters and numbers. no spaces or special characters
     def test_only_alphanumeric_and_underscore(self):
@@ -172,20 +179,22 @@ class TestStoreCreateView(TestCase):
         response = self.client.post(
             "/master/store/add/", {"name": "Krishna Stores", "code": "krishna store"}
         )
-        self.assertEqual(200, response.status_code)
         self.assertTemplateUsed("master/add.html")
         self.assertContains(
-            response, "Store code can only be alphanumeric or underscore"
+            response,
+            "Store code can only be alphanumeric or underscore",
+            status_code=400,
         )
 
         # cannot contain hyphen
         response = self.client.post(
             "/master/store/add/", {"name": "Krishna Stores", "code": "krishna-store"}
         )
-        self.assertEqual(200, response.status_code)
         self.assertTemplateUsed("master/add.html")
         self.assertContains(
-            response, "Store code can only be alphanumeric or underscore"
+            response,
+            "Store code can only be alphanumeric or underscore",
+            status_code=400,
         )
 
         # can contain underscore and numbers
