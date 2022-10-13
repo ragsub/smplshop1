@@ -94,6 +94,9 @@ class SetupMasterData(SetupTests):
         self.driver.find_element(By.ID, "id_name").send_keys("Tata Tea 500 gms")
         self.driver.find_element(By.ID, "id_submit").click()
 
+        WebDriverWait(self.driver, 10).until(EC.title_is("Product"))
+
         # the user returns to the product page and sees the new product there
+
         self.assertIn("Product", self.driver.title)
         self.assertIn("Tata Tea 500 gms", self.driver.page_source)

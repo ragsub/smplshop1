@@ -26,3 +26,27 @@ class Store(models.Model):
 
     class Meta:
         ordering = ("code", "name")
+
+
+class Product(models.Model):
+    code = models.CharField(
+        max_length=25,
+        verbose_name="Product Code",
+        blank=False,
+        unique=True,
+        validators=[
+            RegexValidator(
+                r"^[A-Za-z0-9_]+$",
+                _("Product code can only be alphanumeric or underscore"),
+            )
+        ],
+    )
+    name = models.CharField(
+        max_length=50, verbose_name="Store Name", blank=False, unique=True
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ("code", "name")

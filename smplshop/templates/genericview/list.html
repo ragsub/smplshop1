@@ -1,7 +1,28 @@
-{%extends "genericview/list.html"%}
+{%extends "base.html"%}
 {% load static i18n %}
+{% load verbose %}
+{%load django_bootstrap5%}
 {%block title%}Store{%endblock title%}
 
+{%block content%}
 {%block action_buttons%}
 <a href="{%url 'smplshop.master:store_add'%}" up-layer="new" id="add_button" up-accept-location="{%url 'smplshop.master:store_list'%}?new_code=:code" class="btn btn-primary" up-on-accepted="up.log.enable();console.log('hi');up.reload({ navigate: true,url:'{{request.path}}?new_code='+value.code})">{%translate "Add"%}</a>
 {%endblock action_buttons%}
+<table id="list-table" class="table table-hover w-auto">
+    <tr>
+    {%for field in fields%}
+        <th>{{field}}</th>
+    {%endfor%}
+    </tr>
+    {%for obj in object_list%}
+    <tr>
+    {%for value in obj%}
+        <td>{{value}}</td>
+        {%endfor%}
+    {%endfor%}
+    </tr>
+</table>
+
+{%bootstrap_pagination page_obj%}
+
+{%endblock content%}
