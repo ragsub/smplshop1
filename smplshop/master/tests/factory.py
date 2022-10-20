@@ -1,8 +1,8 @@
-from factory import LazyAttribute
+from factory import LazyAttribute, SubFactory
 from factory.django import DjangoModelFactory
 from faker import Faker
 
-from smplshop.master.models import Product, Store
+from smplshop.master.models import Product, ProductInStore, Store
 
 fake = Faker()
 Faker.seed(23)
@@ -24,3 +24,13 @@ class ProductFactory(DjangoModelFactory):
 
     code = LazyAttribute(lambda _: fake.unique.word())  # type: ignore
     name = LazyAttribute(lambda _: fake.unique.company())  # type: ignore
+
+
+class ProductInStoreFactory(DjangoModelFactory):
+    class Meta:
+        model = ProductInStore
+        django_get_or_create = ("store", "product")
+
+    store = SubFactory(StoreFactory)
+    product = SubFactory(ProductFactory)
+    price = LazyAttribute(lambda _: fake.numerify("%##.##"))  # type: ignore

@@ -1,13 +1,13 @@
 {%extends 'base.html'%}
 {% load static i18n %}
 {%load crispy_forms_tags%}
-{%block title%}Add Record{%endblock title%}
+{%block title%}Add {{model}} Record{%endblock title%}
 
 {%block content%}
 <div up-main>
-    <h3>Add a record</h3>
+    <h3>Add {{model}} record</h3>
     <hr>
-    <form method="POST" action="{{request.path}}" up-layer="root" up-fail-layer="current">
+    <form method="POST" action="{{request.path}}" up-submit="">
         {% csrf_token %}
         {{ form|crispy }}
         <button type='submit' id="id_submit" class="btn btn-primary">Submit</button>

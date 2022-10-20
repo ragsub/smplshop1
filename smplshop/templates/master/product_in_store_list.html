@@ -1,0 +1,7 @@
+{%extends "genericview/list.html"%}
+{% load static i18n %}
+{%block title%}Products in store{%endblock title%}
+
+{%block action_buttons%}
+<a href="{%url 'smplshop.master:product_in_store_add'%}" up-layer="new" id="add_button" up-accept-location="{%url 'smplshop.master:product_in_store_list'%}?new_code=:code" class="btn btn-primary" up-on-accepted="up.reload({navigate:true,url:'{{request.path}}?new_code='+value.code})">{%translate "Add"%}</a>
+{%endblock action_buttons%}

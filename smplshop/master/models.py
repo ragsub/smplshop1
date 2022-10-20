@@ -1,5 +1,8 @@
-from django.core.validators import RegexValidator
+import uuid
+
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from django.db.models import UniqueConstraint
 from django.utils.translation import gettext_lazy as _
 
 
@@ -50,3 +53,26 @@ class Product(models.Model):
 
     class Meta:
         ordering = ("code", "name")
+
+
+class ProductInStore(models.Model):
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    store = models.ForeignKey(
+        Store, to_field="name", on_delete=models.CASCADE, verbose_name="Store"
+    )
+    product = models.ForeignKey(
+        Product, to_field="name", on_delete=models.PROTECT, verbose_name="Product"
+    )
+    price = models.FloatField(validators=[MinValueValidator(0.0)], verbose_name="Price")
+
+    def __str__(self):
+        return str(self.product) + " in " + str(self.store)
+
+    class Meta:
+        ordering = ("store", "product")
+        constraints = [
+            UniqueConstraint(
+                fields=["store", "product"], name="unique_product_in_store"
+            ),
+        ]
+        verbose_name = "Product In Store"

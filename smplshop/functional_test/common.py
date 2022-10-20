@@ -25,6 +25,6 @@ class SetupTests(StaticLiveServerTestCase):
         cls.driver.implicitly_wait(10)
 
     @classmethod
-    def tearDownClass(self):
-        self.driver.quit()
+    def tearDownClass(cls):
+        cls.driver.quit()
         super().tearDownClass()

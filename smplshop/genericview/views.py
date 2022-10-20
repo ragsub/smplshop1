@@ -19,6 +19,7 @@ class GenericListView(LoginRequiredMixin, ListView):
     fields: list
     paginate_by: int = settings.ITEMS_PER_PAGE
     template_name: str
+    attribute: str
 
     def get_verbose_field_name(self, field: str):
         return self.model._meta.get_field(field).verbose_name  # type: ignore
@@ -33,7 +34,7 @@ class GenericListView(LoginRequiredMixin, ListView):
 
         new_code = self.request.GET.get("new_code", None)
         if new_code is not None and self.paginate_by is not None:
-            obj = get_object_or_404(self.model, code=new_code)  # type: ignore
+            obj = get_object_or_404(self.model, **{self.attribute: new_code})  # type: ignore
             if obj:
                 new_page = math.floor(self.get_page(obj.id))  # type: ignore
                 context["page_obj"] = context["paginator"].page(new_page)
@@ -66,12 +67,13 @@ class GenericCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name: str = "genericview/add.html"
     success_message: str
     success_view_name: str
+    attribute: str
 
     def get_success_url(self) -> str:
         success_url = (
             reverse_lazy(self.success_view_name)
             + "?new_code="
-            + str(self.object.code)  # type: ignore
+            + str(getattr(self.object, self.attribute))  # type: ignore
         )
         return success_url
 
@@ -79,3 +81,8 @@ class GenericCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         response = super().form_invalid(form)
         response.status_code = 400
         return response
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["model"] = self.model._meta.verbose_name.title()  # type: ignore
+        return context
