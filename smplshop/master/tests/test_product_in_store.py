@@ -268,7 +268,7 @@ class TestProductInStoreCreateView(TestCase):
             status_code=400,
         )
 
-    # check if store that is not there in store table is rejected
+    # check if product that is not there in store table is rejected
     def test_invalid_product_case(self):
         product_in_store = ProductInStoreFactory.create()
         response = self.client.post(

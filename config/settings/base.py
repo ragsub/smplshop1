@@ -83,7 +83,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "smplshop.users",
     "smplshop.master",
-    "smplshop.tags"
+    "smplshop.tags",
+    "smplshop.shop",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -143,6 +144,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "smplshop.shop.middleware.GetShopMiddleware",
 ]
 
 # STATIC

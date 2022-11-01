@@ -1,0 +1,37 @@
+{%extends "shop/base_for_shop.html"%}
+{%block title%}
+{{request.shop}} Cart
+{%endblock title%}
+
+{%block content%}
+{%if object_list%}
+<a href="{%url 'smplshop.shop:place_order' shop=request.shop.code%}" class="btn btn-primary">Order</a>
+<table class="table w-auto">
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total Price</th>
+    </tr>
+
+    {%for obj in object_list%}
+    <tr>
+        <td id="product">{{obj.product}}</td>
+        <td id="quantity" class="text-center">{{obj.quantity}} <a href=""><i class="bi bi-file-minus"></i></a><a href=""><i class="bi bi-file-plus"></i></a></td>
+        <td id="price" class="text-end">{{obj.price}}</td>
+        <td id="total_price" class="text-end">{{obj.total_price}}</td>
+    </tr>
+    {%endfor%}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td id="total_cart_price" class="text-end">{{total_cart_price}}</td>
+    </tr>
+
+</table>
+{%else%}
+<div class="container">Cart is empty</div>
+{%endif%}
+
+{%endblock content%}

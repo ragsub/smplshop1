@@ -1,0 +1,51 @@
+{%extends 'shop/base_for_shop.html'%}
+{%block title%}
+{{request.shop}} Orders
+{%endblock title%}
+
+{%block content%}
+
+<div class="accordion accordion-flush">
+{%for obj in object_list%}
+<div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne_{{forloop.counter}}" aria-expanded="false" aria-controls="collapseOne">
+        <table class="table m-0 p-0 w-auto table-borderless">
+            <tr>
+                <th>Order Number</th>
+                <td id="order_number">{{obj.uuid}}</td>
+
+                <th>Amount</th>
+                <td id="total_order_price">{{obj.total_order_price}}</td>
+
+                <th>Status</th>
+                <td id="order_status">{{obj.get_status_display}}</td>
+
+            </tr>
+        </table>
+      </button>
+    </h2>
+    <div id="collapseOne_{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <table class="table w-auto">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                </tr>
+                {%for obj_items in obj.orderitem_set.all%}
+                <tr id="order-item">
+                    <td id="product_name">{{obj_items.product}}</td>
+                    <td id="quantity">{{obj_items.quantity}}</td>
+                    <td id="price">{{obj_items.price}}</td>
+                    <td id="total_price">{{obj_items.total_price}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </div>
+    </div>
+</div>
+{%endfor%}
+</div>
+{%endblock content%}
