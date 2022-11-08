@@ -146,7 +146,7 @@ def place_order(request: HttpRequest, shop: str) -> HttpResponse:
     else:
         messages.error(request, _("No items in cart to order"))
 
-    return redirect("smplshop.shop:orders", shop=shop)
+    return redirect("smplshop.shop:customer_orders", shop=shop)
 
 
 class OrderListView(LoginRequiredMixin, ListView):

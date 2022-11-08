@@ -41,8 +41,8 @@
                                 <tr id="order-item">
                                     <td id="product_name">{{ obj_items.product }}</td>
                                     <td id="quantity">{{ obj_items.quantity }}</td>
-                                    <td id="price">{{ obj_items.price }}</td>
-                                    <td id="total_price">{{ obj_items.total_price }}</td>
+                                    <td id="price">{{ obj_items.price |floatformat:2 }}</td>
+                                    <td id="total_price">{{ obj_items.total_price|floatformat:2 }}</td>
                                 </tr>
                             {% endfor %}
                         </table>
