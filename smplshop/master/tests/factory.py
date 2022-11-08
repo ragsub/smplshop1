@@ -1,11 +1,8 @@
 from factory import LazyAttribute, SubFactory
 from factory.django import DjangoModelFactory
-from faker import Faker
 
+from smplshop.functional_test.faker import fake
 from smplshop.master.models import Product, ProductInStore, Store
-
-fake = Faker()
-Faker.seed(23)
 
 
 class StoreFactory(DjangoModelFactory):

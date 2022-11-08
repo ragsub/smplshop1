@@ -52,7 +52,7 @@ class TestOrderPlacement(SetUpPlayWrightMixin, StaticLiveServerTestCase):
         self.assertEqual(
             page.url,
             "{}{}{}{}".format(
-                self.live_server_url, "/shop/", self.store1.code, "/cart"
+                self.live_server_url, "/shop/", self.store1.code, "/cart/"
             ),
         )
 
@@ -92,7 +92,7 @@ class TestOrderPlacement(SetUpPlayWrightMixin, StaticLiveServerTestCase):
                 self.live_server_url,
                 "/accounts/login/?next=/shop/",
                 self.store1.code,
-                "/cart/order",
+                "/cart/order/",
             ),
         )
 
@@ -109,7 +109,7 @@ class TestOrderPlacement(SetUpPlayWrightMixin, StaticLiveServerTestCase):
                 self.live_server_url,
                 "/shop/",
                 self.store1.code,
-                "/orders",
+                "/orders/",
             ),
         )
 

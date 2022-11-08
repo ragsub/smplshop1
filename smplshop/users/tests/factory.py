@@ -4,10 +4,8 @@ from typing import Any
 from django.conf import settings
 from factory import LazyAttribute, post_generation
 from factory.django import DjangoModelFactory
-from faker import Faker
 
-fake = Faker()
-Faker.seed(23)
+from smplshop.functional_test.faker import fake
 
 
 class UserFactory(DjangoModelFactory):

@@ -1,19 +1,23 @@
-{%extends 'base.html'%}
+{% extends "base.html" %}
 {% load static i18n %}
-{%load crispy_forms_tags%}
-{%block title%}Add {{model}} Record{%endblock title%}
-
-{%block content%}
-<div up-main>
-    <h3>Add {{model}} record</h3>
-    <hr>
-    <form class="form" method="POST" action="{{request.path}}" up-submit="">
-        {% csrf_token %}
-        {{form|crispy}}
-        <button type='submit' id="id_submit_product_in_store" class="btn btn-primary">Submit</button>
-        <a class="btn btn-secondary" href="{% url 'smplshop.master:product_add'%}" up-layer="new" id="add_product_button" up-accept-location="{%url 'smplshop.master:product_list'%}?new_code=:code" up-on-accepted="up.reload('.form')">Add Product</a>
-
-    </form>
-
-</div>
-{%endblock content%}
+{% load crispy_forms_tags %}
+{% block title %}
+    Add {{ model }} Record
+{% endblock title %}
+{% block content %}
+    <div up-main>
+        <h3>Add {{ model }} record</h3>
+        <hr/>
+        <form class="form" method="post" action="{{ request.path }}" up-submit="">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type='submit' id="id_submit_product_in_store" class="btn btn-primary">Submit</button>
+            <a class="btn btn-secondary"
+               href="{% url 'smplshop.master:product_add' %}"
+               up-layer="new"
+               id="add_product_button"
+               up-accept-location="{% url 'smplshop.master:product_list' %}?new_code=:code"
+               up-on-accepted="up.reload('.form')">Add Product</a>
+        </form>
+    </div>
+{% endblock content %}

@@ -7,15 +7,12 @@ from django.db.models import Q, Value
 from django.test import TestCase
 from django.test.client import Client
 from django.urls import resolve, reverse
-from faker import Faker
 
+from smplshop.functional_test.faker import fake
 from smplshop.master.models import ProductInStore
 from smplshop.users.tests.factory import UserFactory
 
 from .factory import ProductFactory, ProductInStoreFactory, StoreFactory
-
-fake = Faker()
-Faker.seed(23)
 
 
 class TestProductInStoreListView(TestCase):

@@ -3,6 +3,7 @@ from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F, FilteredRelation, Q
 from django.db.models.base import ModelBase
 from django.db.models.query import QuerySet
@@ -49,7 +50,9 @@ def add_to_cart(
     request: HttpRequest, shop: str, product_in_store_uuid: uid.UUID
 ) -> HttpResponse:
 
-    product_in_store = get_object_or_404(ProductInStore, uuid=product_in_store_uuid)
+    product_in_store = get_object_or_404(
+        ProductInStore, uuid=product_in_store_uuid, store__code=shop
+    )
     if not request.session.get(shop, None):
         # if the cookie is not there,
         # create an empty cart and create the cookie
@@ -88,6 +91,7 @@ class CartView(ListView):
 
         if self.request.session.get(shop, None):
             cart_uuid = self.request.session.get(shop, None)
+            get_object_or_404(Cart, uuid=cart_uuid, store=store)
             qs = qs.filter(uuid=cart_uuid)
             qs = (
                 qs.prefetch_related("cartitem_set")
@@ -123,28 +127,29 @@ def place_order(request: HttpRequest, shop: str) -> HttpResponse:
     store = Store.objects.get(code=shop)
     if request.session.get(shop, None):
         cart_uuid = request.session.get(shop, None)
-        cart = Cart.objects.get(uuid=cart_uuid)
-        new_order = Order.objects.create(user=request.user, store=store)
-        for item in CartItem.objects.filter(cart=cart):
-            OrderItem.objects.create(
-                order=new_order,
-                product=item.product_in_store.product,
-                price=item.product_in_store.price,
-                quantity=item.quantity,
-            )
-
-        cart.delete()
-        del request.session[shop]
-        request.session.modified = True
-        messages.success(request, _("Order " + str(new_order.uuid) + " created"))
-
+        cart = get_object_or_404(Cart, uuid=cart_uuid, store=store)
+        if CartItem.objects.filter(cart=cart).exists():
+            new_order = Order.objects.create(user=request.user, store=store)
+            for item in CartItem.objects.filter(cart=cart):
+                OrderItem.objects.create(
+                    order=new_order,
+                    product=item.product_in_store.product,
+                    price=item.product_in_store.price,
+                    quantity=item.quantity,
+                )
+            cart.delete()
+            del request.session[shop]
+            request.session.modified = True
+            messages.success(request, _("Order " + str(new_order.uuid) + " created"))
+        else:
+            messages.error(request, _("No items in cart to order"))
     else:
         messages.error(request, _("No items in cart to order"))
 
     return redirect("smplshop.shop:orders", shop=shop)
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin, ListView):
     model: ModelBase = Order
     template_name: str = "shop/orders.html"
 

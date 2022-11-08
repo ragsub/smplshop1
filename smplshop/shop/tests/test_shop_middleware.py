@@ -23,4 +23,12 @@ class TestShopMiddleware(TestCase):
 
     def test_shop_is_returned(self):
         response = self.client.get("/shop/" + str(self.shop.code) + "/")
-        self.assertEqual(response.request.shop, self.shop)
+        self.assertEqual(response.wsgi_request.shop, self.shop)
+        self.assertEqual(200, response.status_code)
+
+    def test_incorrect_shop_is_rejected(self):
+        response = self.client.get("/shop/test/")
+        self.assertEqual(404, response.status_code)
+        self.assertContains(
+            response=response, text="Shop test does not exist", status_code=404
+        )

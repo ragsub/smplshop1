@@ -43,3 +43,6 @@ webdriver-manager==3.8.3 # https://github.com/SergeyPirogov/webdriver_manager
 
 # playwright
 playwright==1.27.1 # https://github.com/Microsoft/playwright-python
+
+#djlint
+djlint==1.19.3

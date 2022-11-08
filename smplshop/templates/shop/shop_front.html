@@ -1,19 +1,24 @@
-{%extends "shop/base_for_shop.html"%}
-{%block title%}
-{{request.shop}}
-{%endblock title%}
-
-{%block content%}
-<div class="row">
-    {%for obj in object_list%}
-    <div class="col-lg-3 col-sm-12" id="shop_item">
-        <div class="container d-flex flex-column border rounded-3 bg-light mb-2">
-            <div class="mt-3 mb-3">{{obj.product}}</div>
-            <div class="mb-3">{{obj.price}}</div>
-            <div class="mb-3"><a href="{%url 'smplshop.shop:add_to_cart' shop=request.shop.code product_in_store_uuid=obj.uuid%}" class="btn btn-primary"><i class="bi bi-cart-plus"></i></a> In Cart:{{obj.quantity | default_if_none:"0"}}</div>
+{% extends "shop/base_for_shop.html" %}
+{% block title %}
+    {{ request.shop }}
+{% endblock title %}
+{% block content %}
+    {% if object_list %}
+        <div class="row">
+            {% for obj in object_list %}
+                <div class="col-lg-3 col-sm-12" id="shop_item">
+                    <div class="container d-flex flex-column border rounded-3 bg-light mb-2">
+                        <div class="mt-3 mb-3">{{ obj.product }}</div>
+                        <div class="mb-3">{{ obj.price }}</div>
+                        <div class="mb-3">
+                            <a href="{% url 'smplshop.shop:add_to_cart' shop=request.shop.code product_in_store_uuid=obj.uuid %}"
+                               class="btn btn-primary"><i class="bi bi-cart-plus"></i></a> In Cart:{{ obj.quantity | default_if_none:"0" }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </div>
-    {%endfor%}
-</div>
-
-{%endblock content%}
+    {% else %}
+        No items to shop!
+    {% endif %}
+{% endblock content %}
