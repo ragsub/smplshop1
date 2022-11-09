@@ -83,7 +83,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "smplshop.users",
     "smplshop.master",
-    "smplshop.tags",
+    "smplshop.template_tags",
     "smplshop.shop",
     # Your stuff: custom apps go here
 ]

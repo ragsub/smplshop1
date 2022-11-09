@@ -50,3 +50,17 @@ class TestOrderPlacement(SetUpPlayWrightMixin, StaticLiveServerTestCase):
         # user sees an action to ship the order or cancel it
         # user sends the item through courier and clicks on ship the order
         # user sees that the status has changed to shipped
+        # user sees an action to cancel or mark the order as delivered
+        # user clicks on cancel the order
+        # user sees that the order has been cancelled
+        # user clicks the fourth order
+        # user sees the details of the items requested in the fourth order
+        # user sees an action to accept or cancel the order
+        # user accepts the order
+        # user sees an action to ship or cancel the order
+        # user clicks on ship the order
+        # user sees an action to mark the order as delivered or cancel the order
+        # user marks the order as delivered
+        # user sees an option to mark the order as closed
+        # user confirms that the payment has been received and closes the order
+        # there are no further actions to be made on the order
