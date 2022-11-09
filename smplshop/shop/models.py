@@ -1,9 +1,11 @@
 import uuid
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import UniqueConstraint
+from django.utils.translation import gettext_lazy as _
 
 from smplshop.master.models import Product, ProductInStore, Store
 
@@ -66,6 +68,61 @@ class Order(models.Model):
     status = models.CharField(
         max_length=15, choices=ORDER_STATUS_CHOICES, default="placed"
     )
+
+    def can_shop_cancel_order(self):
+        return True if self.status in ["placed", "accepted", "shipped"] else False
+
+    def cancel_order(self):
+        if self.can_shop_cancel_order():
+            self.status = "cancelled"
+        else:
+            raise ValidationError(
+                _("{}{}{}".format("Order ", self.uuid, " cannot be cancelled"))
+            )
+
+    def can_shop_ship_order(self):
+        return True if self.status == "accepted" else False
+
+    def ship_order(self):
+        if self.can_shop_ship_order():
+            self.status = "shipped"
+        else:
+            raise ValidationError(
+                _("{}{}{}".format("Order ", self.uuid, " cannot be shipped"))
+            )
+
+    def can_shop_accept_order(self):
+        return True if self.status == "placed" else False
+
+    def accept_order(self):
+        if self.can_shop_accept_order():
+            self.status = "accepted"
+        else:
+            raise ValidationError(
+                _("{}{}{}".format("Order ", self.uuid, " cannot be accepted"))
+            )
+
+    def can_shop_deliver_order(self):
+        return True if self.status == "shipped" else False
+
+    def deliver_order(self):
+        if self.can_shop_deliver_order():
+            self.status = "delivered"
+        else:
+            raise ValidationError(
+                _("{}{}{}".format("Order ", self.uuid, " cannot be delivered"))
+            )
+
+    def can_shop_close_order(self):
+        return True if self.status == "delivered" else False
+
+    def close_order(self):
+        if self.can_shop_close_order():
+            self.status = "closed"
+        else:
+            raise ValidationError(
+                _("{}{}{}".format("Order ", self.uuid, " cannot be closed"))
+            )
 
     @property
     def total_order_price(self):
