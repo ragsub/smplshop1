@@ -79,6 +79,7 @@ class Order(models.Model):
             raise ValidationError(
                 _("{}{}{}".format("Order ", self.uuid, " cannot be cancelled"))
             )
+        self.save()
 
     def can_shop_ship_order(self):
         return True if self.status == "accepted" else False
@@ -90,6 +91,7 @@ class Order(models.Model):
             raise ValidationError(
                 _("{}{}{}".format("Order ", self.uuid, " cannot be shipped"))
             )
+        self.save()
 
     def can_shop_accept_order(self):
         return True if self.status == "placed" else False
@@ -101,6 +103,7 @@ class Order(models.Model):
             raise ValidationError(
                 _("{}{}{}".format("Order ", self.uuid, " cannot be accepted"))
             )
+        self.save()
 
     def can_shop_deliver_order(self):
         return True if self.status == "shipped" else False
@@ -112,6 +115,7 @@ class Order(models.Model):
             raise ValidationError(
                 _("{}{}{}".format("Order ", self.uuid, " cannot be delivered"))
             )
+        self.save()
 
     def can_shop_close_order(self):
         return True if self.status == "delivered" else False
@@ -123,6 +127,7 @@ class Order(models.Model):
             raise ValidationError(
                 _("{}{}{}".format("Order ", self.uuid, " cannot be closed"))
             )
+        self.save()
 
     @property
     def total_order_price(self):
@@ -137,4 +142,4 @@ class OrderItem(models.Model):
 
     @property
     def total_price(self):
-        return "%s" % (self.price * self.quantity)  # type: ignore
+        return self.price * self.quantity  # type: ignore

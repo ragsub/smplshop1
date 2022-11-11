@@ -85,6 +85,7 @@ LOCAL_APPS = [
     "smplshop.master",
     "smplshop.template_tags",
     "smplshop.shop",
+    "smplshop.transaction",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

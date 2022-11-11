@@ -21,6 +21,8 @@ urlpatterns = [
     path("master/", include("smplshop.master.urls")),
     # shopping portal
     path("shop/", include("smplshop.shop.urls")),
+    # transaction data
+    path("transaction/", include("smplshop.transaction.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

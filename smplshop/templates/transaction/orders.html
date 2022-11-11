@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ request.shop }} Orders
+{% endblock title %}
+{% block content %}
+    <div class="accordion accordion-flush">
+        {% for obj in object_list %}
+            <div class="container mb-3">
+                <h1>{{ obj.name }}</h1>
+                {% if obj.order_set.all %}
+                    {% for item in obj.order_set.all %}
+                        <div class="accordion-item" id={{ forloop.counter }}>
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne_{{ forloop.counter }}"
+                                        aria-expanded="false"
+                                        aria-controls="collapseOne">
+                                    <table class="table m-0 p-0 w-auto table-borderless"
+                                           id="header_table_{{ forloop.counter }}">
+                                        <tr>
+                                            <th>User</th>
+                                            <td id="user">{{ item.user }}</td>
+                                            <th>Order Number</th>
+                                            <td id="order_number">{{ item.uuid }}</td>
+                                            <th>Amount</th>
+                                            <td id="total_order_price">{{ item.total_order_price }}</td>
+                                            <th>Status</th>
+                                            <td id="order_status">{{ item.get_status_display }}</td>
+                                        </tr>
+                                    </table>
+                                </button>
+                            </h2>
+                            <div id="collapseOne_{{ forloop.counter }}"
+                                 class="accordion-collapse collapse"
+                                 aria-labelledby="headingOne"
+                                 data-bs-parent="#accordionExample">
+                                <div class="accordion-body" id="accordion_body_{{ forloop.counter }}">
+                                    <table class="table w-auto">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                        {% for obj_items in item.orderitem_set.all %}
+                                            <tr id="order-item">
+                                                <td id="product_name">{{ obj_items.product }}</td>
+                                                <td id="quantity">{{ obj_items.quantity }}</td>
+                                                <td id="price">{{ obj_items.price |floatformat:2 }}</td>
+                                                <td id="total_price">{{ obj_items.total_price|floatformat:2 }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    <div class="container" id="action">
+                                        {% if item.can_shop_accept_order %}
+                                            <a href="{% url 'smplshop.transaction:change_order_status' %}?order_uuid={{ item.uuid }}&change_status=accept"
+                                               id="accept"
+                                               up-target="#header_table_{{ forloop.counter }}, #accordion_body_{{ forloop.counter }}"
+                                               class="btn btn-sm btn-primary"><i class="bi bi-cart-check"></i> Accept</a>
+                                        {% endif %}
+                                        {% if item.can_shop_ship_order %}
+                                            <a href="{% url 'smplshop.transaction:change_order_status' %}?order_uuid={{ item.uuid }}&change_status=ship"
+                                               id="ship"
+                                               up-target="#header_table_{{ forloop.counter }}, #accordion_body_{{ forloop.counter }}"
+                                               class="btn btn-sm btn-primary"><i class="bi bi-truck"></i> Ship</a>
+                                        {% endif %}
+                                        {% if item.can_shop_deliver_order %}
+                                            <a href="{% url 'smplshop.transaction:change_order_status' %}?order_uuid={{ item.uuid }}&change_status=deliver"
+                                               id="deliver"
+                                               up-target="#header_table_{{ forloop.counter }}, #accordion_body_{{ forloop.counter }}"
+                                               class="btn btn-sm btn-primary"><i class="bi bi-envelope-check"></i> Deliver</a>
+                                        {% endif %}
+                                        {% if item.can_shop_close_order %}
+                                            <a href="{% url 'smplshop.transaction:change_order_status' %}?order_uuid={{ item.uuid }}&change_status=close"
+                                               id="close"
+                                               up-target="#header_table_{{ forloop.counter }}, #accordion_body_{{ forloop.counter }}"
+                                               class="btn btn-sm btn-primary"><i class="bi bi-currency-rupee"></i> Close</a>
+                                        {% endif %}
+                                        {% if item.can_shop_cancel_order %}
+                                            <a href="{% url 'smplshop.transaction:change_order_status' %}?order_uuid={{ item.uuid }}&change_status=cancel"
+                                               id="cancel"
+                                               up-target="#header_table_{{ forloop.counter }}, #accordion_body_{{ forloop.counter }}"
+                                               class="btn btn-sm btn-danger"><i class="bi bi-dash-circle"></i> Cancel</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    No orders in this shop
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

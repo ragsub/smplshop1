@@ -1,30 +1,25 @@
 {% load static i18n %}
-{%load django_bootstrap5%}
+{% load django_bootstrap5 %}
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
-
   <head>
-    <title>{% block title %}SmplShop{% endblock title %}</title>
-    {%include '__include.html'%}
+    <title>
+      {% block title %}
+        SmplShop
+      {% endblock title %}
+    </title>
+    {% include '__include.html' %}
   </head>
-
   <body>
-
-    <div class="mb-1">
-      {%include '__main_menu.html'%}
-    </div>
-
+    <div class="mb-1">{% include '__main_menu.html' %}</div>
     <div class="container" id="main_body">
-
-      <div up-hungry>
-      {% bootstrap_messages %}
-      </div>
+      <div id="messages" up-hungry>{% bootstrap_messages %}</div>
       {% block content %}
-      <p>Use this document as a way to quick start any new project.</p>
+        <p>Use this document as a way to quick start any new project.</p>
       {% endblock content %}
-
-    </div> <!-- /contain      {% if messages %}
+    </div>
+    <!-- /contain      {% if messages %}
       {% for message in messages %}
       <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
         {{ message }}
@@ -33,18 +28,14 @@
       {% endfor %}
       {% endif %}
 er -->
-
-    {% block modal %}{% endblock modal %}
-
+    {% block modal %}
+    {% endblock modal %}
     {% block inline_javascript %}
-    {% comment %}
+      {% comment %}
     Script tags with only code, no src (defer by default). To run
     with a "defer" so that you run inline code:
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {/* Run whatever you want */ });
-    </script>
-    {% endcomment %}
+    <script>window.addEventListener('DOMContentLoaded', () => {/* Run whatever you want */ });</script>
+      {% endcomment %}
     {% endblock inline_javascript %}
   </body>
-
 </html>
