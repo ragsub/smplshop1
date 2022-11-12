@@ -68,6 +68,8 @@ class Order(models.Model):
     status = models.CharField(
         max_length=15, choices=ORDER_STATUS_CHOICES, default="placed"
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def can_shop_cancel_order(self):
         return True if self.status in ["placed", "accepted", "shipped"] else False
@@ -131,7 +133,10 @@ class Order(models.Model):
 
     @property
     def total_order_price(self):
-        return "%s" % (sum([float(obj.total_price) for obj in self.orderitem_set.all()]))  # type: ignore
+        return sum([float(obj.total_price) for obj in self.orderitem_set.all()])  # type: ignore
+
+    class Meta:
+        ordering = ("store", "-created_at", "-updated_at")
 
 
 class OrderItem(models.Model):

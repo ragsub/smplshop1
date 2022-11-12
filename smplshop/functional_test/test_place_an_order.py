@@ -74,11 +74,12 @@ class TestOrderPlacement(SetUpPlayWrightMixin, StaticLiveServerTestCase):
             total_cart_price = total_cart_price + total_price
 
             self.assertIn(
-                str(total_price),
+                f"{total_price:.2f}",
                 div.locator("id=total_price").inner_html(),
             )
         self.assertIn(
-            str(total_cart_price), page.locator("id=total_cart_price").inner_html()
+            f"{total_cart_price:.2f}",
+            page.locator("id=total_cart_price").inner_html(),
         )
 
         # user clicks the order button
@@ -144,6 +145,6 @@ class TestOrderPlacement(SetUpPlayWrightMixin, StaticLiveServerTestCase):
             total_cart_price = total_cart_price + total_price
 
             self.assertIn(
-                str(total_price),
+                f"{total_price:.2f}",
                 div.locator("id=total_price").inner_html(),
             )
