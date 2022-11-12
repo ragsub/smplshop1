@@ -36,6 +36,8 @@ class SetupTests(StaticLiveServerTestCase):
         cls.host = socket.gethostbyname(socket.gethostname())
         options = ChromeOptions()
         options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
         cls.driver = webdriver.Chrome(
             service=ChromeService(ChromeDriverManager().install()), options=options
         )
