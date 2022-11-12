@@ -53,9 +53,6 @@ jobs:
       - name: Run DB Migrations
         run:  docker-compose -f local.yml run --rm django python manage.py migrate
 
-      - name: Run Playwright install
-        run:  docker-compose -f local.yml run django playwright install
-
       - name: Run django tests
         run:  docker-compose -f local.yml run django python manage.py test
 
